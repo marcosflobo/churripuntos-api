@@ -37,9 +37,22 @@ public class MemberController{
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public HttpResponse<String> add(@Body String text) {
-        Member a = memberService.add(text);
         List<Member> memberList = new ArrayList<>(1);
-        memberList.add(a);
+        memberList.add(memberService.add(text));
+        try {
+            return getMemberBodyResponse(memberList);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return HttpResponse.serverError();
+    }
+
+    @Post("/edit/{key}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public HttpResponse<String> edit(@PathVariable String key, @Body String text) {
+        List<Member> memberList = new ArrayList<>(1);
+        memberList.add(memberService.edit(key, text));
         try {
             return getMemberBodyResponse(memberList);
         } catch (JsonProcessingException e) {
@@ -64,6 +77,8 @@ public class MemberController{
             throws JsonProcessingException {
         MemberResponse response = new MemberResponse("ok", memberList);
         ObjectMapper objectMapper = new ObjectMapper();
+        log.info("Response status OK");
+        log.debug("Response with list size of {} and content {}", memberList.size(), memberList);
         return HttpResponse.ok(objectMapper.writeValueAsString(response));
     }
 

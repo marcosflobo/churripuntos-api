@@ -23,4 +23,8 @@ public class Member{
     public void setPoints(int points) {
         this.points = points;
     }
+
+    public String toString () {
+        return "name: " + getName() + " - points: " + getPoints();
+    }
 }

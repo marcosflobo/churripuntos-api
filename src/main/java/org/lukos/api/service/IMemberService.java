@@ -7,7 +7,7 @@ import java.util.List;
 public interface IMemberService {
 
     Member add(String memberAsJSON);
-    Member edit(String memberAsJSON);
+    Member edit(String memberName, String memberAsJSON);
     Member remove(String memberName);
     Member findMember(String memberName);
     List<Member> getAll();

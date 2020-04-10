@@ -2,6 +2,7 @@ package org.lukos.api.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.lukos.api.domain.Member;
 
 import javax.inject.Singleton;
@@ -10,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Singleton
 public class MemberService implements IMemberService {
 
@@ -28,13 +30,14 @@ public class MemberService implements IMemberService {
     }
 
     @Override
-    public Member edit(String memberAsJSON) {
+    public Member edit(String memberName, String memberAsJSON) {
         Member member = null;
         try {
             Member memberInput = jsonToMember(memberAsJSON);
-            member = findMember(memberInput.getName());
+            member = findMember(memberName);
             if (member != null) {
                 member.setPoints(memberInput.getPoints());
+                log.info("Member {} edited to {}!", memberName, member);
             }
         } catch (JsonProcessingException e) {
             e.printStackTrace();
