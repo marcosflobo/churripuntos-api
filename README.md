@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/marcosflobo/churripuntos-api.svg?branch=master)](https://travis-ci.org/marcosflobo/churripuntos-api)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f64332307bc3454c9c582cfb67522bb8)](https://www.codacy.com/manual/marcosflobo/churripuntos-api?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=marcosflobo/churripuntos-api&amp;utm_campaign=Badge_Grade) [![Build Status](https://travis-ci.org/marcosflobo/churripuntos-api.svg?branch=master)](https://travis-ci.org/marcosflobo/churripuntos-api)
 
 # churripuntos-api
 API to handle Churripuntos for your team
