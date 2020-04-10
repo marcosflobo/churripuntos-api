@@ -2,6 +2,9 @@
 micronaut:
   application:
     name: churripuntos-api
+  server:
+    cors:
+      enabled: true
 
 ---
 micronaut:
