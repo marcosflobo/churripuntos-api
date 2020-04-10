@@ -16,24 +16,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-@Controller("/api")
+@Controller("/api/members")
 public class MemberController{
 
     @Inject
     MemberService memberService;
 
-    @Get("/members")
+    @Get
     @Produces(MediaType.APPLICATION_JSON)
     public HttpResponse<String> index() {
         try {
-            return getMemberBodyResponse("ok", memberService.getAll());
+            return getMemberBodyResponse(memberService.getAll());
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
         return HttpResponse.serverError();
     }
 
-    @Post("/members")
+    @Post
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public HttpResponse<String> add(@Body String text) {
@@ -41,16 +41,28 @@ public class MemberController{
         List<Member> memberList = new ArrayList<>(1);
         memberList.add(a);
         try {
-            return getMemberBodyResponse("ok", memberList);
+            return getMemberBodyResponse(memberList);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
         return HttpResponse.serverError();
     }
 
-    private HttpResponse<String> getMemberBodyResponse(String messageStatus, List<Member> memberList)
+    @Post("/delete/{key}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public HttpResponse<String> remove(@PathVariable String key) {
+        try {
+            memberService.remove(key);
+            return getMemberBodyResponse(memberService.getAll());
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return HttpResponse.serverError();
+    }
+
+    private HttpResponse<String> getMemberBodyResponse(List<Member> memberList)
             throws JsonProcessingException {
-        MemberResponse response = new MemberResponse(messageStatus, memberList);
+        MemberResponse response = new MemberResponse("ok", memberList);
         ObjectMapper objectMapper = new ObjectMapper();
         return HttpResponse.ok(objectMapper.writeValueAsString(response));
     }
