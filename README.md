@@ -3,7 +3,20 @@
 # churripuntos-api
 API to handle Churripuntos for your team
 
-The frontend will be developed in a separated GIT repository
+The frontend is implemented at [https://github.com/marcosflobo/churripuntos-frontend](churripuntos-frontend)
+
+## What is this about?
+The LAW OF THE CHURRIPUNTOS means that, inside of a team work, each time that a team member screws it up, based on
+some rules previously defined within the team, a "churripunto" (point unit) is applied to that team member.
+
+When a team member reached the churripuntos limit allowed by the team, such member should bring to the whole team what
+is called "Churripunto".
+
+## What is Churripuntos?
+"Churripuntos" can be whatever good thing for the team. Some examples (mostly food-related):
+- Box of churros for the whole team
+- Box of special croissants or pain au chocolat for the whole team
+- ... I think you get it
 
 ## Data model
 ### Member
