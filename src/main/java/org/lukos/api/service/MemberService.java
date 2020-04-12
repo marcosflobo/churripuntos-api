@@ -23,8 +23,9 @@ public class MemberService implements IMemberService {
         try {
             member = jsonToMember(memberAsJSON);
             memberList.put(member.getName(), member);
+            log.info("Member added with name {} and points {} ", member.getName(), member.getPoints());
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            log.error("Error parsing to JSON adding new member. Exception message: {}", e.getMessage());
         }
         return member;
     }
@@ -38,9 +39,12 @@ public class MemberService implements IMemberService {
             if (member != null) {
                 member.setPoints(memberInput.getPoints());
                 log.info("Member {} edited to {}!", memberName, member);
+            } else {
+                log.info("Member '{}' not found in edit action.", memberName);
             }
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            log.error("Error parsing to JSON editing member. Member name: {}. Exception message: {}", memberName,
+                    e.getMessage());
         }
 
         return member;
@@ -48,11 +52,14 @@ public class MemberService implements IMemberService {
 
     @Override
     public Member remove(String memberName) {
-        return memberList.remove(memberName);
+        Member ret = memberList.remove(memberName);
+        log.info("Member '{}' removed", memberName);
+        return ret;
     }
 
     @Override
     public Member findMember(String memberName) {
+        log.info("Find member {}...", memberName);
         return memberList.get(memberName);
     }
 
@@ -63,6 +70,7 @@ public class MemberService implements IMemberService {
 
     private Member jsonToMember (String memberAsJSON) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
+        log.debug("Parsing member from JSONString to Object: ", memberAsJSON);
         return objectMapper.readValue(memberAsJSON, Member.class);
     }
 }
