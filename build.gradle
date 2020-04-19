@@ -1,10 +1,9 @@
 plugins {
     id "net.ltgt.apt-eclipse" version "0.21"
-    id "com.github.johnrengelman.shadow" version "5.0.0"
+    id "com.github.johnrengelman.shadow" version "5.2.0"
     id "application"
     id "groovy"
 }
-
 
 
 version "0.1"
@@ -25,7 +24,7 @@ dependencies {
     annotationProcessor "io.micronaut:micronaut-inject-java"
     annotationProcessor "io.micronaut:micronaut-validation"
     annotationProcessor "io.micronaut.configuration:micronaut-openapi"
-    annotationProcessor "org.projectlombok:lombok:1.16.20"
+    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
     annotationProcessor "io.micronaut:micronaut-inject-java"
     implementation platform("io.micronaut:micronaut-bom:$micronautVersion")
     implementation "io.micronaut:micronaut-inject"
@@ -40,9 +39,10 @@ dependencies {
     implementation "io.micronaut:micronaut-tracing"
     runtimeOnly "ch.qos.logback:logback-classic:1.2.3"
     runtimeOnly "io.jaegertracing:jaeger-thrift"
-    compileOnly 'org.projectlombok:lombok:1.16.20'
+    compileOnly "org.projectlombok:lombok:$lombokVersion"
     testAnnotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"
+    testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
     testImplementation platform("io.micronaut:micronaut-bom:$micronautVersion")
     testImplementation "org.junit.jupiter:junit-jupiter-api"
     testImplementation "io.micronaut.test:micronaut-test-junit5"
@@ -51,8 +51,10 @@ dependencies {
     }
     testImplementation "io.micronaut:micronaut-inject-groovy"
     testImplementation "io.micronaut.test:micronaut-test-spock"
+    testCompileOnly "org.projectlombok:lombok:$lombokVersion"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
     testRuntimeOnly "org.junit.vintage:junit-vintage-engine:5.5.0"
+
 }
 
 test.classpath += configurations.developmentOnly

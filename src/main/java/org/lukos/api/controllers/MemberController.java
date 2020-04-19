@@ -9,7 +9,7 @@ import io.micronaut.http.annotation.*;
 import lombok.extern.slf4j.Slf4j;
 import org.lukos.api.domain.Member;
 import org.lukos.api.service.MemberResponse;
-import org.lukos.api.service.MemberService;
+import org.lukos.api.service.impl.MemberServiceImpl;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -20,13 +20,13 @@ import java.util.List;
 public class MemberController{
 
     @Inject
-    MemberService memberService;
+    MemberServiceImpl memberServiceImpl;
 
     @Get
     @Produces(MediaType.APPLICATION_JSON)
     public HttpResponse<String> index() {
         try {
-            return getMemberBodyResponse(memberService.getAll());
+            return getMemberBodyResponse(memberServiceImpl.getAll());
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
@@ -38,7 +38,7 @@ public class MemberController{
     @Produces(MediaType.APPLICATION_JSON)
     public HttpResponse<String> add(@Body String text) {
         List<Member> memberList = new ArrayList<>(1);
-        memberList.add(memberService.add(text));
+        memberList.add(memberServiceImpl.add(text));
         try {
             return getMemberBodyResponse(memberList);
         } catch (JsonProcessingException e) {
@@ -52,7 +52,7 @@ public class MemberController{
     @Produces(MediaType.APPLICATION_JSON)
     public HttpResponse<String> edit(@PathVariable String key, @Body String text) {
         List<Member> memberList = new ArrayList<>(1);
-        memberList.add(memberService.edit(key, text));
+        memberList.add(memberServiceImpl.edit(key, text));
         try {
             return getMemberBodyResponse(memberList);
         } catch (JsonProcessingException e) {
@@ -65,8 +65,8 @@ public class MemberController{
     @Produces(MediaType.APPLICATION_JSON)
     public HttpResponse<String> remove(@PathVariable String key) {
         try {
-            memberService.remove(key);
-            return getMemberBodyResponse(memberService.getAll());
+            memberServiceImpl.remove(key);
+            return getMemberBodyResponse(memberServiceImpl.getAll());
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
