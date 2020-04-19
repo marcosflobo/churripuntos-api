@@ -11,7 +11,6 @@ import org.lukos.api.domain.Member;
 import org.lukos.api.service.MemberResponse;
 import org.lukos.api.service.impl.MemberServiceImpl;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,14 +18,18 @@ import java.util.List;
 @Controller("/api/members")
 public class MemberController{
 
-    @Inject
-    MemberServiceImpl memberServiceImpl;
+    private final MemberServiceImpl memberService;
+
+    MemberController (MemberServiceImpl memberService){
+
+        this.memberService = memberService;
+    }
 
     @Get
     @Produces(MediaType.APPLICATION_JSON)
     public HttpResponse<String> index() {
         try {
-            return getMemberBodyResponse(memberServiceImpl.getAll());
+            return getMemberBodyResponse(memberService.getAll());
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
@@ -38,7 +41,7 @@ public class MemberController{
     @Produces(MediaType.APPLICATION_JSON)
     public HttpResponse<String> add(@Body String text) {
         List<Member> memberList = new ArrayList<>(1);
-        memberList.add(memberServiceImpl.add(text));
+        memberList.add(memberService.add(text));
         try {
             return getMemberBodyResponse(memberList);
         } catch (JsonProcessingException e) {
@@ -52,7 +55,7 @@ public class MemberController{
     @Produces(MediaType.APPLICATION_JSON)
     public HttpResponse<String> edit(@PathVariable String key, @Body String text) {
         List<Member> memberList = new ArrayList<>(1);
-        memberList.add(memberServiceImpl.edit(key, text));
+        memberList.add(memberService.edit(key, text));
         try {
             return getMemberBodyResponse(memberList);
         } catch (JsonProcessingException e) {
@@ -65,8 +68,8 @@ public class MemberController{
     @Produces(MediaType.APPLICATION_JSON)
     public HttpResponse<String> remove(@PathVariable String key) {
         try {
-            memberServiceImpl.remove(key);
-            return getMemberBodyResponse(memberServiceImpl.getAll());
+            memberService.remove(key);
+            return getMemberBodyResponse(memberService.getAll());
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
