@@ -3,21 +3,17 @@ package org.lukos.api.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micronaut.http.HttpRequest;
-import io.micronaut.http.HttpResponse;
 import io.micronaut.http.client.RxHttpClient;
 import io.micronaut.http.client.annotation.Client;
 import io.micronaut.test.annotation.MicronautTest;
 import org.junit.jupiter.api.Test;
-import org.lukos.api.domain.Member;
 import org.lukos.api.service.MemberResponse;
 
 import javax.inject.Inject;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 @MicronautTest
 class MemberControllerTest {
@@ -26,12 +22,13 @@ class MemberControllerTest {
     @Client("/api/members")
     RxHttpClient client;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
-    private String requestBodyFoo = "{\"name\": \"foo\",\"points\":69}";
-    private String requestBodyBar = "{\"name\": \"bar\",\"points\":88}";
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final String requestBodyFoo = "{\"name\": \"foo\",\"points\":69}";
+    private final String requestBodyBar = "{\"name\": \"bar\",\"points\":88}";
 
     @Test
-    void index() throws JsonProcessingException {
+    void index () throws JsonProcessingException {
+
         HttpRequest<String> request = HttpRequest.GET("/");
         String body = client.toBlocking().retrieve(request);
 
@@ -40,7 +37,8 @@ class MemberControllerTest {
     }
 
     @Test
-    void add() throws JsonProcessingException {
+    void add () throws JsonProcessingException {
+
         HttpRequest<String> request = HttpRequest.POST("/", requestBodyFoo);
         String responseBody = client.toBlocking().retrieve(request);
 
@@ -55,7 +53,8 @@ class MemberControllerTest {
     }
 
     @Test
-    void addMoreThanOne() throws JsonProcessingException {
+    void addMoreThanOne () throws JsonProcessingException {
+
         HttpRequest<String> request = HttpRequest.POST("/", requestBodyFoo);
         String responseBody = client.toBlocking().retrieve(request);
         MemberResponse memberResponse = objectMapper.readValue(responseBody, MemberResponse.class);
@@ -92,7 +91,8 @@ class MemberControllerTest {
     }
 
     @Test
-    void edit() throws JsonProcessingException {
+    void edit () throws JsonProcessingException {
+
         HttpRequest<String> request = HttpRequest.POST("/", requestBodyFoo);
         String responseBody = client.toBlocking().retrieve(request);
         MemberResponse memberResponse = objectMapper.readValue(responseBody, MemberResponse.class);
@@ -115,11 +115,13 @@ class MemberControllerTest {
         requestRemove("foo");
     }
 
-    private void requestRemove(String name) throws JsonProcessingException {
+    private void requestRemove (String name) throws JsonProcessingException {
+
         HttpRequest<String> request = HttpRequest.POST("/delete/foo", "");
         String responseBody = client.toBlocking().retrieve(request);
         MemberResponse memberResponse = objectMapper.readValue(responseBody, MemberResponse.class);
 
         assertEquals("ok", memberResponse.getMessage());
     }
+
 }

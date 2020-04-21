@@ -9,9 +9,8 @@ import io.micronaut.http.annotation.*;
 import lombok.extern.slf4j.Slf4j;
 import org.lukos.api.domain.Member;
 import org.lukos.api.service.MemberResponse;
-import org.lukos.api.service.MemberService;
+import org.lukos.api.service.impl.MemberServiceImpl;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,8 +18,12 @@ import java.util.List;
 @Controller("/api/members")
 public class MemberController{
 
-    @Inject
-    MemberService memberService;
+    private final MemberServiceImpl memberService;
+
+    MemberController (MemberServiceImpl memberService){
+
+        this.memberService = memberService;
+    }
 
     @Get
     @Produces(MediaType.APPLICATION_JSON)
